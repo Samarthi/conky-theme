@@ -1,0 +1,127 @@
+conky.config = {
+background= true,
+use_xft = true,
+
+xftalpha =0.8,
+update_interval= 0.5,
+total_run_times=0,
+own_window = true,
+own_window_transparent= false,
+own_window_class = 'conky-semi',
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+
+lua_load ='~/.conky/conky_grey.lua',
+lua_draw_hook_post = 'main',
+
+own_window_type= 'desktop',
+own_window_argb_visual =true,
+own_window_argb_value = 0,
+
+
+double_buffer=true,
+draw_shades=false,
+draw_outline=false,
+draw_borders=false,
+draw_graph_borders= false,
+stippled_borders=0,
+
+border_width=0,
+default_color='#000000',
+default_shade_color='#000000',
+default_outline_color='#000000',
+imlib_cache_size=0,
+gap_x=1300,
+gap_y=125,
+alignment='top_left',
+uppercase=false,
+cpu_avg_samples =2,
+net_avg_samples =2,
+short_units =true,
+text_buffer_size=2048,
+use_spacer = 'none',
+override_utf8_locale= true, 
+default_color ='#CACCCB',
+color1 ='#FDFEFE',
+color2= '#FFFFEF',
+color3 ='#FFFFCF',
+own_window_colour= '#000000',
+};
+conky.text=[[
+
+${goto 75}${offset -25}${font ITC Avant Garde Gothic Pro:size=100} ${time %I}${font ITC Avant Garde Gothic Pro:size=25}${offset 2}${voffset -35}${offset 3}${time %p}${color3}${offset 20}${font ITC Avant Garde Gothic Pro:size=100}${voffset -38}${time %M}
+${voffset -220}
+${color1}${goto 25}${voffset -5}${font ITC Avant Garde Gothic Pro:bold:size=15}Mem${color3} $memperc%${color1}
+
+${goto 135}${voffset -42}Cpu${color3} ${cpu cpu0}%${color1}
+
+${goto 255}${offset 15}${voffset -42}Wifi ${color3}${wireless_link_qual wlp1s0}%${color1}
+
+${goto 365}${voffset -42}Battery${color3} ${battery_percent BAT0}% 
+
+
+${voffset 10}
+
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=11}${color}CPU
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=9}${color1}${top name 1}${alignr 130}${top cpu 1}%
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:
+size=9}${color2}${top name 2}${alignr 130}${top cpu 2}%
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=9}${color3}${top name 3}${alignr 130}${top cpu 3}%
+${goto 140}${cpugraph 20,100 666666 666666}
+
+
+${voffset 32}
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=11}${color}MEM
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=9}${color1}${top_mem name 1}${alignr 130}${top_mem mem 1}%
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=9}${color2}${top_mem name 2}${alignr 130}${top_mem mem 2}%
+${goto 140}${font ITC Avant Garde Gothic Pro:bold:size=9}${color3}${top_mem name 3}${alignr 130}${top_mem mem 3}%
+ 
+${voffset 73}
+${goto 150}${font ITC Avant Garde Gothic Pro:bold:size=11}${color}DISKS
+ 
+${goto 150}${voffset 20}${diskiograph 30,100 666666 666666}${voffset -30}
+
+${goto 150}${voffset 10}${font ITC Avant Garde Gothic Pro:bold:size=11}${color3}used: ${fs_used /} /
+
+
+
+${color1}${goto 10}${voffset -710}${offset -15}${font TR_Neo Afrique :bold:size=15} ${time %a}
+${goto -10}${voffset -1}${offset -15}${font TR_Neo Afrique :bold:size=23} ${time %b} 
+${goto 15}${voffset 1}${offset -15}${color1}${font TR_Neo Afrique :bold:size=30}${time %d}
+
+##Weather
+${execi 1000 python3 ~/.conky/script.py}${offset 460}${voffset -93}${font TR_Neo Afrique :bold:size=20}${execi 500 cat ~/.conky/t}${font TR_Neo Afrique :bold:size=8}${voffset -15} o
+${image ~/.cache/weather.png -p 460,20 -s 60x60}
+${offset 456}${voffset -73}${font TR_Neo Afrique :bold:size=12}${execi 500 cat ~/.conky/f}
+
+
+##Network
+
+##wireless
+${voffset 570}
+
+${if_existing /sys/class/net/wlp1s0/operstate up}
+${goto 125}${font Input Mono  :size=12}${color1}Wireless:
+${goto 125}${font ITC Avant Garde Gothic Pro:bold:size=11}${color3}Net Down: ${downspeed wlp1s0}
+
+$alignr${voffset -30}${goto 330}${color1}${font ITC Avant Garde Gothic Pro:bold:size=11}Net Up:$color ${upspeed wlp1s0}
+
+${goto 125}${downspeedgraph wlp1s0 32,100 }
+
+$alignr${voffset -60}${goto 330}${color3}${upspeedgraph wlp1s0 32,100 }
+${endif}
+
+##tethering
+
+${if_up usb0}
+${voffset -70}
+${goto 125}${font Input Mono  :size=12}${color1}USB tethering:
+${goto 125}${font ITC Avant Garde Gothic Pro:bold:size=11}${color3}Net Down: ${downspeed usb0}
+
+$alignr${voffset -30}${goto 330}${color1}${font ITC Avant Garde Gothic Pro:bold:size=11}Net Up:$color ${upspeed usb0}
+
+${goto 125}${downspeedgraph usb0 32,100 }
+
+$alignr${voffset -60}${goto 330}${color3}${upspeedgraph usb0 32,100 }
+${endif}
+]];
+
